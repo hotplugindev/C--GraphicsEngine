@@ -1,1 +1,1 @@
-A simple graphics engine written in C++
+A simple graphics engine written in C

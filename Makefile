@@ -1,17 +1,17 @@
- CC = g++
+CC=gcc
+CFLAGS=-c -Wall
+LDFLAGS=-lGL -lGLU -lglut -lglfw -lm
+SOURCES=src/main.c
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=target/main
 
-  # compiler flags:
-  #  -g     - this flag adds debugging information to the executable file
-  #  -Wall  - this flag is used to turn on most compiler warnings
-  CFLAGS  = -g -Wall
+all: clean $(EXECUTABLE)
 
-  # The build target
-  TARGET = target/main
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
 
-  all: $(TARGET)
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
-  $(TARGET): $(TARGET).c
-                $(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
-
-  clean:
-                $(RM) $(TARGET)
+clean:
+	rm -rf $(OBJECTS) $(EXECUTABLE)
