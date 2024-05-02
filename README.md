@@ -12,7 +12,9 @@ workerLoop (takes window and function to loop over)
 createObjectQube
 createObjectCircle
 
-drawObjectQube
-drawObjectCircle
+drawObject
+
+addToCollider
+collisionChecker
 
 getKey
