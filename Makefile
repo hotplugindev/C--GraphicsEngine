@@ -1,16 +1,18 @@
 CC=gcc
 CFLAGS=-c -Wall
 LDFLAGS=-lGL -lGLU -lglut -lglfw -lm
-SOURCES=src/main.c
-OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=target/main
+SRCDIR=src
+TARGETDIR=target
+SOURCES=$(wildcard $(SRCDIR)/*.c)
+OBJECTS=$(patsubst $(SRCDIR)/%.c,$(TARGETDIR)/%.o,$(SOURCES))
+EXECUTABLE=$(TARGETDIR)/main
 
 all: clean $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
 
-.cpp.o:
+$(TARGETDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
