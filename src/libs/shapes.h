@@ -11,9 +11,7 @@ void create_obj_qube(float center_x, float center_y, float radius, float aspect_
 
     glBegin(GL_POLYGON);
         glVertex2f(-(radius - center_x), (radius + center_y));
-        glVertex2f(((radius + center_x)), -(radius - center_y));
         glVertex2f(-(radius - center_x), -(radius - center_y));
-        glVertex2f(-(radius - center_x), (radius + center_y));
         glVertex2f(((radius + center_x)), -(radius - center_y));
         glVertex2f(((radius + center_x)), (radius + center_y));
     glEnd();
