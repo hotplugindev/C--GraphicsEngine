@@ -3,7 +3,7 @@
 #include "libs/window.h"
 #include "libs/worker.h"
 #include "libs/objects.h"
-#include "libs/ineractions.h"
+#include "libs/interactions.h"
 
 Collider *collider = NULL;
 
@@ -40,8 +40,10 @@ void mainWorker(GLFWwindow *window){
     if(getKey(window, 'S')) moveObject(player, 0.0, -0.005, NULL);
     if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, NULL);
 
-    mainwin(fb_width, fb_height);
+    if(isContainedInObject(player, 0, 0)) printf("inside\n");
+    else printf("not inside\n");
 
+    mainwin(fb_width, fb_height);
     loadSzene(window);
 }
 

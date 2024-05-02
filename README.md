@@ -18,3 +18,5 @@ addToCollider
 collisionChecker
 
 getKey
+getClickPosition
+// isClicked !NOT IMPLEMENTED! //
