@@ -11,6 +11,7 @@ workerLoop (takes window and function to loop over)
 
 createObjectQube
 createObjectCircle
+// (TODO) Implement a way to easly add custom polygons
 
 drawObject
 
