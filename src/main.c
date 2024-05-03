@@ -35,13 +35,10 @@ void mainWorker(GLFWwindow *window){
     getWindowSize(window, &fb_width, &fb_height);
     getCursorPosition(window, &xcurs, &ycurs);
 
-    if(getKey(window, 'W')) moveObject(player, 0.0, 0.005, NULL);
-    if(getKey(window, 'A')) moveObject(player, -0.005, 0.0, NULL);
-    if(getKey(window, 'S')) moveObject(player, 0.0, -0.005, NULL);
-    if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, NULL);
-
-    if(isContainedInObject(player, 0, 0)) printf("inside\n");
-    else printf("not inside\n");
+    if(getKey(window, 'W')) moveObject(player, 0.0, 0.015, collider);
+    if(getKey(window, 'A')) moveObject(player, -0.005, 0.0, collider);
+    if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, collider);
+     moveObject(player, 0.0, -0.01, collider);
 
     mainwin(fb_width, fb_height);
     loadSzene(window);
@@ -53,7 +50,7 @@ int main() {
     if(window == NULL) return -1;
 
     player = createObjectRectangle(-0.5, 0.5, 0.15, 0.15);
-    ground = createObjectRectangle(0, -0.5, 2, 0.25);
+    ground = createObjectRectangle(0, -0.5, 2, 0.02);
     test = createObjectCircle(0.25, 0.5, 0.15, 25);
 
     addToCollider(&collider, player);
