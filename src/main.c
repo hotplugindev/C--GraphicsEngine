@@ -38,10 +38,10 @@ void mainWorker(GLFWwindow *window){
     getWindowSize(window, &fb_width, &fb_height);
     getCursorPosition(window, &xcurs, &ycurs);
 
-    if(getKey(window, 'A')) moveObject(player, -0.005, 0.0, collider, 10);
-    if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, collider, 10);
-    if(getKey(window, ' ') ) { moveObject(player, 0.0, 0.03, collider, 10); }
-    moveObject(player, 0.0, -0.02, collider, 10);
+    if(getKey(window, 'A')) moveObject(player, -0.01, 0.0, collider, 10);
+    if(getKey(window, 'D')) moveObject(player, 0.01, 0.0, collider, 10);
+    if(getKey(window, ' ') ) { moveObject(player, 0.0, 0.03, collider, 4); }
+    moveObject(player, 0.0, -0.015, collider, 10);
 
     mainwin(fb_width, fb_height);
     loadSzene(window);
