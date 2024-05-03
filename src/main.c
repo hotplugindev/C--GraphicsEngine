@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 #include "libs/window.h"
 #include "libs/worker.h"
 #include "libs/objects.h"
@@ -35,10 +38,10 @@ void mainWorker(GLFWwindow *window){
     getWindowSize(window, &fb_width, &fb_height);
     getCursorPosition(window, &xcurs, &ycurs);
 
-    if(getKey(window, 'W')) moveObject(player, 0.0, 0.015, collider);
-    if(getKey(window, 'A')) moveObject(player, -0.005, 0.0, collider);
-    if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, collider);
-     moveObject(player, 0.0, -0.01, collider);
+    if(getKey(window, 'A')) moveObject(player, -0.005, 0.0, collider, 10);
+    if(getKey(window, 'D')) moveObject(player, 0.005, 0.0, collider, 10);
+    if(getKey(window, ' ') ) { moveObject(player, 0.0, 0.03, collider, 10); }
+    moveObject(player, 0.0, -0.02, collider, 10);
 
     mainwin(fb_width, fb_height);
     loadSzene(window);
@@ -46,15 +49,43 @@ void mainWorker(GLFWwindow *window){
 
 int main() {
 
+    char path[1024];
+
+    ssize_t bytes_read = readlink("/proc/self/exe", path, sizeof(path) - 1);
+    if (bytes_read == -1) {
+      perror("readlink");
+      exit(1);
+    }
+
+    path[bytes_read] = '\0';  // Null terminate the string
+
+    // Extract directory path (assuming the executable is not the root directory)
+    char *last_slash = strrchr(path, '/');
+    if (last_slash != NULL) {
+      *last_slash = '\0';  // Terminate the string at the last slash
+    } else {
+      // Handle edge case: executable might be in the root directory (/)
+      printf("Executable might be in the root directory.\n");
+    }
+
+    // Change directory using chdir
+    int result = chdir(path);
+    if (result == -1) {
+      perror("chdir");
+      exit(1);
+    }
+
     GLFWwindow *window = createWindow(800, 800, "OpenGL");
     if(window == NULL) return -1;
 
-    player = createObjectRectangle(-0.5, 0.5, 0.15, 0.15);
+    //player = createObjectPolygon(0, 0, "polygons/player.pol");
+    player = createObjectPolygon(0, 0, "polygons/player.pol");
+    test = createObjectRectangle(-0.5, 0.5, 0.15, 0.15);
     ground = createObjectRectangle(0, -0.5, 2, 0.02);
-    test = createObjectCircle(0.25, 0.5, 0.15, 25);
 
     addToCollider(&collider, player);
     addToCollider(&collider, ground);
+    addToCollider(&collider, test);
 
     workerLoop(window, mainWorker, 30);
 

@@ -7,7 +7,7 @@ SOURCES=$(wildcard $(SRCDIR)/*.c)
 OBJECTS=$(patsubst $(SRCDIR)/%.c,$(TARGETDIR)/%.o,$(SOURCES))
 EXECUTABLE=$(TARGETDIR)/main
 
-all: clean $(EXECUTABLE)
+all: clean $(EXECUTABLE) copydeps
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
@@ -15,5 +15,8 @@ $(EXECUTABLE): $(OBJECTS)
 $(TARGETDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $< -o $@
 
+copydeps:
+	cp -r $(SRCDIR)/sources/* $(TARGETDIR)
+
 clean:
-	rm -rf $(OBJECTS) $(EXECUTABLE)
+	rm -rf $(TARGETDIR)/*

@@ -24,6 +24,37 @@ typedef struct Collider{
     struct Collider *next;
 }Collider;
 
+Object *createObjectPolygon(float center_x, float center_y, char *file){
+    FILE *fp;
+    fp = fopen(file, "r");
+    if(fp == NULL) { printf("Failed to open File: %s setting Object to NULL", file); return NULL; }
+
+    Object *polygon = (Object*)malloc(sizeof(Object));
+    polygon->x = center_x;
+    polygon->y = center_y;
+    polygon->head = NULL;
+    Polygon *prev = NULL;
+
+    float x, y;
+    while(fscanf(fp, "%f %f", &x, &y) != EOF){
+        Polygon *current = (Polygon*)malloc(sizeof(Polygon));
+        current->x = x;
+        current->y = y;
+        current->next = NULL;
+        if(polygon->head == NULL){
+            polygon->head = current;
+        }else{
+            prev->next = current;
+        }
+        prev = current;
+    }
+    if (polygon->head != NULL) {
+            prev->next = polygon->head;
+    }
+    fclose(fp);
+    return polygon;
+}
+
 Object *createObjectRectangle(float center_x, float center_y, float width, float height){
     Object *rec = (Object*)malloc(sizeof(Object));
     rec->x = center_x;
@@ -142,7 +173,7 @@ void addToCollider(Collider **collider, Object *object){
     }
 }
 
-void moveObject(Object *object, float x_shift, float y_shift, Collider *collider){
+void setObjectPosition(Object *object, float x_shift, float y_shift, Collider *collider){
     if(collider == NULL){
         if(x_shift > 0 && object->x < 1) object->x += x_shift;
         if(x_shift < 0 && object->x > -1) object->x += x_shift;
@@ -153,4 +184,10 @@ void moveObject(Object *object, float x_shift, float y_shift, Collider *collider
     if(x_shift < 0 && object->x > -1 && collisionChecker(object, x_shift, y_shift, collider)) object->x += x_shift;
     if(y_shift > 0 && object->y < 1 && collisionChecker(object, x_shift, y_shift, collider)) object->y += y_shift;
     if(y_shift < 0 && object->y > -1 && collisionChecker(object, x_shift, y_shift, collider)) object->y += y_shift;
+}
+
+void moveObject(Object *object, float x_shift, float y_shift, Collider *collider, int steps){
+    for(int i = 0; i < steps; i++){
+        setObjectPosition(object, x_shift/steps, y_shift/steps, collider);
+    }
 }

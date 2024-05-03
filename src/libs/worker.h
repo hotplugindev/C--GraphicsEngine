@@ -1,4 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <GLFW/glfw3.h>
+
 
 void workerLoop(GLFWwindow *window, void (*mainWorker)(GLFWwindow*), int fps){
 
