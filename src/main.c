@@ -10,6 +10,7 @@
 
 Collider *collider = NULL;
 
+
 Object *player = NULL;
 Object *ground = NULL;
 Object *test = NULL;
